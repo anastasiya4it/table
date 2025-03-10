@@ -4,4 +4,5 @@ export interface ProjectItemType {
   numberOfTasks: number;
   status: string;
   date: string;
+  description: string;
 }
