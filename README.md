@@ -4,14 +4,24 @@ This template should help get you started developing with Vue 3 and TypeScript i
 
 Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
 
-Setup
-Встановлюємо усе 
+# Node
+## Використовуємо node -v 22
 
+```bash
+nvm install 22
+nvm use 22
+```
+
+# Setup
+## Встановлюємо усе 
+
+```bash
 npm install
 npm install -g json-server
-
-Development Server
-запускаємо у різних вікнах
-
+```
+# Development Server
+## запускаємо у різних вікнах
+```bash
 json-server --watch api/db.json
 npm run dev
+```
