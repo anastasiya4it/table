@@ -19,5 +19,6 @@ const emit = defineEmits(["searchProjects"]);
   border-radius: 5px;
   box-shadow: 3px 5px 5px rgb(202, 202, 202);
   font-size: 1rem;
+  outline: none;
 }
 </style>

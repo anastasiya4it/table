@@ -5,6 +5,7 @@ import { type ProjectItemType } from "@/types/index";
 
 export const useProjectStore = defineStore("project", () => {
   const projects = ref<ProjectItemType[]>([]);
+  const oneProject = ref<ProjectItemType | null>(null);
   const isLoading = ref<Boolean>(false);
 
   async function getAllProjects() {
@@ -16,10 +17,9 @@ export const useProjectStore = defineStore("project", () => {
           return resp.data;
         });
 
-      console.log(respons, "respons");
       projects.value = respons;
     } catch (error) {
-      throw new Error("Error fetching tale data");
+      throw new Error("Error fetching project data");
     } finally {
       isLoading.value = false;
     }
@@ -34,7 +34,7 @@ export const useProjectStore = defineStore("project", () => {
     date,
   }: ProjectItemType) {
     isLoading.value = true;
-    // const idx=tale.value?.id;
+    // const idx=project.value?.id;
     try {
       const respons = await axios.post("http://localhost:3000/projects", {
         id,
@@ -45,10 +45,10 @@ export const useProjectStore = defineStore("project", () => {
         date,
       });
       projects.value.push(respons.data);
-      console.log(respons, "respons");
+
       // comments.value = respons;
     } catch (error) {
-      throw new Error("Error fetching tale data");
+      throw new Error("Error fetching project data");
     } finally {
       isLoading.value = false;
     }
@@ -67,10 +67,9 @@ export const useProjectStore = defineStore("project", () => {
           return resp.data;
         });
 
-      console.log(respons, "respons");
       projects.value = respons;
     } catch (error) {
-      throw new Error("Error fetching tale data");
+      throw new Error("Error fetching project data");
     } finally {
       isLoading.value = false;
     }
@@ -89,21 +88,44 @@ export const useProjectStore = defineStore("project", () => {
           return resp.data;
         });
 
-      console.log(respons, "respons");
       projects.value = respons;
     } catch (error) {
-      throw new Error("Error fetching tale data");
+      throw new Error("Error fetching project data");
     } finally {
       isLoading.value = false;
     }
   }
+
+  async function getProjectsById(id: string) {
+    isLoading.value = true;
+    try {
+      const respons: ProjectItemType = await axios
+        .get(`http://localhost:3000/projects`, {
+          params: {
+            id,
+          },
+        })
+        .then((resp) => {
+          return resp.data;
+        });
+
+      oneProject.value = respons;
+    } catch (error) {
+      throw new Error("Error fetching project data");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   return {
     projects,
+    oneProject,
     isLoading,
 
     getAllProjects,
     setNewProject,
     getProjectsByStatus,
     getProjectsByName,
+    getProjectsById,
   };
 });

@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 // @ts-ignore
-import ProjectItem from "../components/ProjectItem.vue";
-// @ts-ignore
 import Select from "../components/ui/Select.vue";
 // @ts-ignore
 import Search from "../components/ui/Search.vue";
 // @ts-ignore
 import Popup from "../components/Popup.vue";
 // @ts-ignore
-import ProjectTable from "../components/ProjectTable.vue";
+import ResizableTable from "../components/ResizableTable.vue";
 import { compile, computed, onMounted, ref, nextTick } from "vue";
 import { useProjectStore } from "../stores/projectStore";
 import moment from "moment";
@@ -35,7 +33,7 @@ const isLoading = computed(() => {
 const keys = Object.keys(header);
 
 async function filterProjects(selected: string) {
-  if (selected === "all") {
+  if (selected === "All") {
     storeProject.getAllProjects();
   } else {
     storeProject.getProjectsByStatus(selected);
@@ -79,19 +77,26 @@ onMounted(() => {
   <div class="table">
     <div class="header">
       <h1 class="card-title">Projects</h1>
-      <button @click="addProject">Додати проект</button>
+      <button @click="addProject" class="button">Додати проект</button>
     </div>
     <div class="secondary">
       <Select
         :selected="selected"
-        :options="['All', 'New', 'In progress', 'Completed']"
+        :options="[
+          'All',
+          'В процесі / In Progress',
+          'Заплановано / Scheduled',
+          'Завершено / Done',
+          'Призупинено / Suspended',
+          'Скасовано / Cancelled',
+        ]"
         @filterProjects="filterProjects"
       />
       <Search :search="search" @searchProjects="searchProjects" />
     </div>
     <div v-if="isLoading">Loading...</div>
     <div v-else>
-      <ProjectTable :items="projects" :keys="keys" :header="header" />
+      <ResizableTable :items="projects" :keys="keys" :header="header" />
     </div>
   </div>
   <Popup
@@ -106,6 +111,7 @@ onMounted(() => {
   //   width: 100% !important;
   height: 100vh !important;
 }
+
 .table {
   width: 100%;
 }

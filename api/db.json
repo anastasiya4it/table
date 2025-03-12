@@ -1,68 +1,378 @@
 {
   "projects": [
     {
-      "id": 0,
-      "name": "John 1",
-      "numberOfTasks": 3,
-      "status": "In progress",
-      "date": "2021-10-10",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi."
-    },
-    {
       "id": 1,
-      "name": "Joao 2",
-      "numberOfTasks": 5,
-      "status": "In progress",
-      "date": "2021-10-10",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi."
+      "name": "Розробка сайту для клієнта",
+      "numberOfTasks": 12,
+      "status": "В процесі / In Progress",
+      "date": "2025-03-10",
+      "description": "Проєкт створення корпоративного сайту з індивідуальним дизайном та CMS."
     },
     {
       "id": 2,
-      "name": "Jean 3",
-      "numberOfTasks": 2,
-      "status": "In progress",
-      "date": "2021-10-10",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi."
+      "name": "Мобільний додаток для доставки",
+      "numberOfTasks": 0,
+      "status": "Заплановано / Scheduled",
+      "date": "2025-04-01",
+      "description": "Розробка кросплатформенного додатку для доставки їжі та товарів."
     },
     {
       "id": 3,
-      "name": "Jonny 4",
-      "numberOfTasks": 1,
-      "status": "In progress",
-      "date": "2021-10-10",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi."
+      "name": "Редизайн маркетплейсу",
+      "numberOfTasks": 0,
+      "status": "Завершено / Done",
+      "date": "2025-02-20",
+      "description": "Оновлення інтерфейсу та UX для великого маркетплейсу електроніки."
     },
     {
       "id": 4,
-      "name": "Guisepe 5",
-      "numberOfTasks": 4,
-      "status": "In progress",
-      "date": "2021-10-10",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi. Nulla nec purus feugiat, molestie ipsum et, consequat nunc. Nulla facilisi."
+      "name": "CRM система для продажів",
+      "numberOfTasks": 0,
+      "status": "В процесі / In Progress",
+      "date": "2025-03-05",
+      "description": "Створення CRM для автоматизації процесу продажів та аналітики."
     },
     {
       "id": 5,
-      "name": "f",
-      "numberOfTasks": 0,
-      "status": "New",
-      "description": "f",
-      "date": "2025-03-10"
+      "name": "Landing Page для заходу",
+      "numberOfTasks": 7,
+      "status": "Заплановано / Scheduled",
+      "date": "2025-03-15",
+      "description": "Розробка промо-сторінки для анонсу нової конференції з реєстрацією."
     },
     {
       "id": 6,
-      "name": "gg",
+      "name": "AI чат-бот для підтримки",
       "numberOfTasks": 0,
-      "status": "New",
-      "description": "ggg",
-      "date": "2025-03-10"
+      "status": "В процесі / In Progress",
+      "date": "2025-03-08",
+      "description": "Розробка чат-бота з AI для автоматизації відповідей у службі підтримки клієнтів."
     },
     {
       "id": 7,
-      "name": "jjj",
+      "name": "Платформа для онлайн-курсів",
       "numberOfTasks": 0,
-      "status": "New",
-      "description": "jjj",
-      "date": "2025-03-11"
+      "status": "Заплановано / Scheduled",
+      "date": "2025-04-12",
+      "description": "Масштабна платформа для розміщення та продажу освітніх курсів з відео та тестами."
+    },
+    {
+      "id": 8,
+      "name": "Інтеграція платіжної системи",
+      "numberOfTasks": 0,
+      "status": "Призупинено / Suspended",
+      "date": "2025-02-28",
+      "description": "Впровадження популярної платіжної системи на e-commerce сайті."
+    },
+    {
+      "id": 9,
+      "name": "Автоматизація бухгалтерії",
+      "numberOfTasks": 0,
+      "status": "В процесі / In Progress",
+      "date": "2025-03-02",
+      "description": "Розробка модулів автоматизації звітності та обліку для бухгалтерії."
+    },
+    {
+      "id": 10,
+      "name": "Реклама у соціальних мережах",
+      "numberOfTasks": 0,
+      "status": "Завершено / Done",
+      "date": "2025-01-15",
+      "description": "Проведення рекламної кампанії для запуску нового бренду."
+    },
+    {
+      "id": 11,
+      "name": "Внутрішній портал компанії",
+      "numberOfTasks": 0,
+      "status": "Заплановано / Scheduled",
+      "date": "2025-04-05",
+      "description": "Створення корпоративного порталу для співробітників з новинами та файлами."
+    },
+    {
+      "id": 12,
+      "name": "Оптимізація SEO для магазину",
+      "numberOfTasks": 0,
+      "status": "В процесі / In Progress",
+      "date": "2025-03-01",
+      "description": "Поліпшення видимості сайту в пошукових системах та технічна SEO-оптимізація."
+    },
+    {
+      "id": 13,
+      "name": "Міграція бази даних",
+      "numberOfTasks": 0,
+      "status": "Завершено / Done",
+      "date": "2025-02-10",
+      "description": "Перенесення даних зі старої системи у нову платформу з мінімальним простоєм."
+    },
+    {
+      "id": 14,
+      "name": "Розробка API для мобільного додатку",
+      "numberOfTasks": 9,
+      "status": "В процесі / In Progress",
+      "date": "2025-03-09",
+      "description": "Створення backend API для синхронізації даних мобільного застосунку."
+    },
+    {
+      "id": 15,
+      "name": "UI/UX аудит продукту",
+      "numberOfTasks": 0,
+      "status": "Скасовано / Cancelled",
+      "date": "2025-02-05",
+      "description": "Аналіз зручності інтерфейсу та рекомендації щодо покращення користувацького досвіду."
+    }
+  ],
+  "tasks": [
+    {
+      "taskId": 1,
+      "projectId": 1,
+      "name": "Зібрати вимоги від клієнта",
+      "status": "Done",
+      "date": "2025-03-01",
+      "description": "Провести зустріч з клієнтом для збору основних вимог до сайту.",
+      "assignee": "Anna Kovalenko"
+    },
+    {
+      "taskId": 2,
+      "projectId": 1,
+      "name": "Створити прототип головної сторінки",
+      "status": "In Progress",
+      "date": "2025-03-03",
+      "description": "Розробити макет та структуру головної сторінки сайту.",
+      "assignee": "Ivan Petrenko"
+    },
+    {
+      "taskId": 3,
+      "projectId": 1,
+      "name": "Підготувати контент для сайту",
+      "status": "To Do",
+      "date": "2025-03-05",
+      "description": "Зібрати тексти, фото та інші матеріали для розміщення на сайті.",
+      "assignee": "Olena Shevchenko"
+    },
+    {
+      "taskId": 4,
+      "projectId": 1,
+      "name": "Розробити адаптивний дизайн",
+      "status": "In Progress",
+      "date": "2025-03-06",
+      "description": "Створити дизайн, який буде коректно відображатися на мобільних пристроях.",
+      "assignee": "Anna Kovalenko"
+    },
+    {
+      "taskId": 5,
+      "projectId": 1,
+      "name": "Налаштувати систему керування контентом (CMS)",
+      "status": "To Do",
+      "date": "2025-03-08",
+      "description": "Встановити та налаштувати CMS для легкого редагування сайту клієнтом.",
+      "assignee": "Oleh Sydorenko"
+    },
+    {
+      "taskId": 6,
+      "projectId": 1,
+      "name": "Верстка головної сторінки",
+      "status": "To Do",
+      "date": "2025-03-09",
+      "description": "Розробити HTML/CSS шаблон для головної сторінки за затвердженим дизайном.",
+      "assignee": "Ivan Petrenko"
+    },
+    {
+      "taskId": 7,
+      "projectId": 1,
+      "name": "Реалізація контактної форми",
+      "status": "To Do",
+      "date": "2025-03-10",
+      "description": "Створити та підключити форму зворотного зв'язку з перевіркою даних.",
+      "assignee": "Olena Shevchenko"
+    },
+    {
+      "taskId": 8,
+      "projectId": 1,
+      "name": "SEO-оптимізація сайту",
+      "status": "To Do",
+      "date": "2025-03-12",
+      "description": "Оптимізувати сторінки сайту для покращення видимості в пошукових системах.",
+      "assignee": "Oleh Sydorenko"
+    },
+    {
+      "taskId": 9,
+      "projectId": 1,
+      "name": "Розробити сторінку \"Про нас\"",
+      "status": "To Do",
+      "date": "2025-03-13",
+      "description": "Створити окрему сторінку з описом компанії та місії.",
+      "assignee": "Anna Kovalenko"
+    },
+    {
+      "taskId": 10,
+      "projectId": 1,
+      "name": "Інтеграція карт Google Maps",
+      "status": "To Do",
+      "date": "2025-03-14",
+      "description": "Додати інтерактивну карту на сторінку контактів.",
+      "assignee": "Ivan Petrenko"
+    },
+    {
+      "taskId": 11,
+      "projectId": 1,
+      "name": "Тестування функціоналу сайту",
+      "status": "To Do",
+      "date": "2025-03-15",
+      "description": "Перевірити роботу всіх сторінок, форм і посилань на сайті.",
+      "assignee": "Olena Shevchenko"
+    },
+    {
+      "taskId": 12,
+      "projectId": 1,
+      "name": "Запуск сайту та передача клієнту",
+      "status": "To Do",
+      "date": "2025-03-18",
+      "description": "Розміщення сайту на хостингу, тестовий запуск та передача доступів клієнту.",
+      "assignee": "Oleh Sydorenko"
+    },
+    {
+      "taskId": 13,
+      "projectId": 5,
+      "name": "Розробити концепцію лендингу",
+      "status": "Done",
+      "date": "2025-03-01",
+      "description": "Створити концепцію, структуру і загальний стиль лендинг-сторінки для заходу.",
+      "assignee": "Marta Hrytsenko"
+    },
+    {
+      "taskId": 14,
+      "projectId": 5,
+      "name": "Підготувати текстовий контент",
+      "status": "In Progress",
+      "date": "2025-03-02",
+      "description": "Написати основний текст для лендингу: опис події, спікери, програма.",
+      "assignee": "Taras Bondarenko"
+    },
+    {
+      "taskId": 15,
+      "projectId": 5,
+      "name": "Розробити дизайн банерів та графіки",
+      "status": "To Do",
+      "date": "2025-03-04",
+      "description": "Підготувати візуальні елементи: банери, іконки, фото для лендингу.",
+      "assignee": "Iryna Melnyk"
+    },
+    {
+      "taskId": 16,
+      "projectId": 5,
+      "name": "Верстка лендингу за дизайном",
+      "status": "To Do",
+      "date": "2025-03-06",
+      "description": "Розробити HTML/CSS шаблон відповідно до затвердженого дизайну.",
+      "assignee": "Andriy Savchuk"
+    },
+    {
+      "taskId": 17,
+      "projectId": 5,
+      "name": "Реалізація форми реєстрації",
+      "status": "To Do",
+      "date": "2025-03-07",
+      "description": "Створити інтерактивну форму для реєстрації учасників із перевіркою даних.",
+      "assignee": "Marta Hrytsenko"
+    },
+    {
+      "taskId": 18,
+      "projectId": 5,
+      "name": "Оптимізація швидкості завантаження",
+      "status": "To Do",
+      "date": "2025-03-08",
+      "description": "Перевірити продуктивність сторінки і оптимізувати швидкість завантаження.",
+      "assignee": "Taras Bondarenko"
+    },
+    {
+      "taskId": 19,
+      "projectId": 5,
+      "name": "Тестування та запуск лендингу",
+      "status": "To Do",
+      "date": "2025-03-10",
+      "description": "Перевірити функціонал і підготувати лендинг до запуску.",
+      "assignee": "Andriy Savchuk"
+    },
+    {
+      "taskId": 20,
+      "projectId": 14,
+      "name": "Проектування архітектури API",
+      "status": "Done",
+      "date": "2025-03-01",
+      "description": "Створити загальну архітектуру API, визначити основні ендпоінти і схеми відповідей.",
+      "assignee": "Dmytro Kovalchuk"
+    },
+    {
+      "taskId": 21,
+      "projectId": 14,
+      "name": "Розробити систему автентифікації",
+      "status": "In Progress",
+      "date": "2025-03-03",
+      "description": "Реалізувати JWT або OAuth 2.0 для безпечного доступу до API.",
+      "assignee": "Olha Marchenko"
+    },
+    {
+      "taskId": 22,
+      "projectId": 14,
+      "name": "Створити ендпоінти для управління користувачами",
+      "status": "In Progress",
+      "date": "2025-03-04",
+      "description": "Розробити API для реєстрації, входу, редагування профілю та видалення акаунта.",
+      "assignee": "Serhii Bondar"
+    },
+    {
+      "taskId": 23,
+      "projectId": 14,
+      "name": "Розробити систему логування та моніторингу",
+      "status": "To Do",
+      "date": "2025-03-06",
+      "description": "Додати логування всіх запитів і помилок, інтеграція з системою моніторингу (наприклад, Sentry).",
+      "assignee": "Olha Marchenko"
+    },
+    {
+      "taskId": 24,
+      "projectId": 14,
+      "name": "Розробити API для сповіщень",
+      "status": "To Do",
+      "date": "2025-03-07",
+      "description": "Створити ендпоінти для надсилання push-сповіщень та їх керування.",
+      "assignee": "Dmytro Kovalchuk"
+    },
+    {
+      "taskId": 25,
+      "projectId": 14,
+      "name": "Тестування безпеки API",
+      "status": "To Do",
+      "date": "2025-03-08",
+      "description": "Перевірити безпеку API, включаючи захист від SQL Injection, XSS, CSRF.",
+      "assignee": "Serhii Bondar"
+    },
+    {
+      "taskId": 26,
+      "projectId": 14,
+      "name": "Створити документацію API (Swagger)",
+      "status": "To Do",
+      "date": "2025-03-09",
+      "description": "Розробити повну документацію для розробників мобільного застосунку за допомогою Swagger або аналогів.",
+      "assignee": "Olha Marchenko"
+    },
+    {
+      "taskId": 27,
+      "projectId": 14,
+      "name": "Оптимізація продуктивності API",
+      "status": "To Do",
+      "date": "2025-03-10",
+      "description": "Оптимізувати запити до бази даних та швидкість відповіді API.",
+      "assignee": "Dmytro Kovalchuk"
+    },
+    {
+      "taskId": 28,
+      "projectId": 14,
+      "name": "Фінальне тестування та підготовка до релізу",
+      "status": "To Do",
+      "date": "2025-03-12",
+      "description": "Провести повний цикл тестування API перед запуском у продакшн.",
+      "assignee": "Serhii Bondar"
     }
   ]
 }

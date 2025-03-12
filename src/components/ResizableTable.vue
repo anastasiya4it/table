@@ -2,11 +2,14 @@
 import "@fortawesome/fontawesome-free/css/all.css";
 import { ref, onMounted, computed } from "vue";
 import VueResizable from "vue-resizable";
-import { type ProjectItemType } from "../types/index";
+import type { ProjectItemType, TaskItemType } from "../types/index";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const props = defineProps<{
-  header: ProjectItemType;
-  items: ProjectItemType[];
+  header: ProjectItemType | TaskItemType;
+  items: ProjectItemType[] | TaskItemType[];
   keys: string[];
 }>();
 const items = ref(props.items);
@@ -14,9 +17,7 @@ const handlers = ref(["r"]);
 const hoveredRow = ref<number | string | null>(null);
 
 const handleMouseOver = (id: number | string) => {
-  if (typeof id === "number") {
-    hoveredRow.value = id;
-  }
+  hoveredRow.value = id;
 };
 const handleMouseLeave = () => {
   hoveredRow.value = null;
@@ -44,6 +45,9 @@ function filter(event: string, id: string) {
     });
   }
 }
+function navigateToPage(project: string) {
+  router.push({ name: "tasks", params: { project } });
+}
 </script>
 
 <template>
@@ -58,32 +62,34 @@ function filter(event: string, id: string) {
       >
         <div style="width: 100%; height: 100%">
           <p class="resizable-content">{{ props.header[item] }}</p>
-          <button @click="filter('down', item)">
-            <i
-              class="fa-duotone fa-solid fa-arrow-down fa-bounce fa-xs"
-              style="
-                --fa-bounce-start-scale-x: 1;
-                --fa-bounce-start-scale-y: 1;
-                --fa-bounce-jump-scale-x: 1;
-                --fa-bounce-jump-scale-y: 1;
-                --fa-bounce-land-scale-x: 1;
-                --fa-bounce-land-scale-y: 1;
-              "
-            ></i>
-          </button>
-          <button @click="filter('up', item)">
-            <i
-              class="fa-solid fa-arrow-up fa-bounce fa-xs"
-              style="
-                --fa-bounce-start-scale-x: 1;
-                --fa-bounce-start-scale-y: 1;
-                --fa-bounce-jump-scale-x: 1;
-                --fa-bounce-jump-scale-y: 1;
-                --fa-bounce-land-scale-x: 1;
-                --fa-bounce-land-scale-y: 1;
-              "
-            ></i>
-          </button>
+          <div class="header__buttons">
+            <button @click="filter('down', item)">
+              <i
+                class="fa-duotone fa-solid fa-arrow-down fa-bounce fa-xs"
+                style="
+                  --fa-bounce-start-scale-x: 1;
+                  --fa-bounce-start-scale-y: 1;
+                  --fa-bounce-jump-scale-x: 1;
+                  --fa-bounce-jump-scale-y: 1;
+                  --fa-bounce-land-scale-x: 1;
+                  --fa-bounce-land-scale-y: 1;
+                "
+              ></i>
+            </button>
+            <button @click="filter('up', item)">
+              <i
+                class="fa-solid fa-arrow-up fa-bounce fa-xs"
+                style="
+                  --fa-bounce-start-scale-x: 1;
+                  --fa-bounce-start-scale-y: 1;
+                  --fa-bounce-jump-scale-x: 1;
+                  --fa-bounce-jump-scale-y: 1;
+                  --fa-bounce-land-scale-x: 1;
+                  --fa-bounce-land-scale-y: 1;
+                "
+              ></i>
+            </button>
+          </div>
         </div>
       </vue-resizable>
     </div>
@@ -102,18 +108,27 @@ function filter(event: string, id: string) {
         :key="item"
         :fitParent="true"
       >
-        <div style="width: 100%; height: 100%">
-          <p class="resizable-content">{{ project[item] }}</p>
-        </div>
+        <a @click.prevent="navigateToPage(project.id)">
+          <div style="width: 100%; height: 100%">
+            <p class="resizable-content">{{ project[item] }}</p>
+          </div>
+        </a>
       </vue-resizable>
     </div>
   </div>
 </template>
 
 <style scoped>
+.header__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
 .table-container {
   display: table;
-  box-shadow: 3px 5px 5px rgb(202, 202, 202);
+  box-shadow: 3px 5px 5px #cacaca;
   overflow: hidden;
 }
 .arrow-button {
@@ -135,6 +150,6 @@ function filter(event: string, id: string) {
 }
 
 .highlight-row {
-  background-color: #f0f0f0;
+  background-color: #cacaca41;
 }
 </style>

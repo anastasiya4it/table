@@ -37,7 +37,7 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid #cecece;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -45,19 +45,32 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  box-shadow: 3px 5px 5px rgb(202, 202, 202);
 }
 button:hover {
   border-color: #646cff;
+  transform: translateY(-1px);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
+}
+button:active {
+  background-color: #cacaca41;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  outline: none;
+  color: rgba(0, 0, 0, 0.8);
+  transform: translateY(0);
 }
 
 .card {
   padding: 2em;
 }
-
+.loading {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #213547;
+}
 #app {
   max-width: 1280px;
   width: 100%;
