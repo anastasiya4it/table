@@ -7,6 +7,7 @@ export const useTaskStore = defineStore("task", () => {
   const tasks = ref<TaskItemType[]>([]);
   const oneTask = ref<TaskItemType | null>(null);
   const isLoading = ref<Boolean>(false);
+  const allAssignee = ref<string[]>([]);
 
   async function getAllTasksForOneProject(projectId: string) {
     isLoading.value = true;
@@ -22,12 +23,45 @@ export const useTaskStore = defineStore("task", () => {
         });
 
       tasks.value = respons;
+      allAssignee.value = Array.from(
+        new Set(respons.map((task) => task.assignee))
+      );
     } catch (error) {
       throw new Error("Error fetching project data");
     } finally {
       isLoading.value = false;
     }
   }
+  async function getAllTasksWithFilters({
+    projectId,
+    filter,
+    valueFilter,
+  }: {
+    projectId: string;
+    filter: string;
+    valueFilter: string;
+  }) {
+    isLoading.value = true;
+    try {
+      const respons: TaskItemType[] = await axios
+        .get("http://localhost:3000/tasks", {
+          params: {
+            projectId,
+            [filter]: valueFilter,
+          },
+        })
+        .then((resp) => {
+          return resp.data;
+        });
+
+      tasks.value = respons;
+    } catch (error) {
+      throw new Error("Error fetching project data");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   async function setNewStatus(taskId: string, status: string) {
     isLoading.value = true;
     try {
@@ -51,9 +85,11 @@ export const useTaskStore = defineStore("task", () => {
 
   return {
     tasks,
+    allAssignee,
     isLoading,
 
     getAllTasksForOneProject,
     setNewStatus,
+    getAllTasksWithFilters,
   };
 });

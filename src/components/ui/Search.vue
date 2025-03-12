@@ -9,6 +9,7 @@ const emit = defineEmits(["searchProjects"]);
     :value="props.search"
     @input="emit('searchProjects', $event.target.value)"
     class="input"
+    placeholder="Search"
   />
 </template>
 
@@ -20,5 +21,6 @@ const emit = defineEmits(["searchProjects"]);
   box-shadow: 3px 5px 5px rgb(202, 202, 202);
   font-size: 1rem;
   outline: none;
+  line-height: 1.6;
 }
 </style>

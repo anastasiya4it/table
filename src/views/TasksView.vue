@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import "@fortawesome/fontawesome-free/css/all.css";
+// @ts-ignore
+import SelectSearch from "../components/ui/SelectSearch.vue";
+// @ts-ignore
+import Select from "../components/ui/Select.vue";
 // import draggable from "@/vue-draggable-next";
 import { VueDraggableNext as draggable } from "vue-draggable-next";
 import { useProjectStore } from "../stores/projectStore";
@@ -16,6 +20,11 @@ const storeProject = useProjectStore();
 const storeTask = useTaskStore();
 const isLoading = computed(() => {
   return storeProject.isLoading || storeTask.isLoading;
+});
+const selectAssignee = ref("");
+const selected = ref("All");
+const allAssignee = computed(() => {
+  return ["All", ...storeTask.allAssignee];
 });
 const header = {
   taskId: "ID завдання",
@@ -71,7 +80,23 @@ async function listTasksToDoEvent(e: any, listName: Status) {
     // await storeTask.setNewStatus(e.added.element.taskId, listName);
   }
 }
-
+async function filterTask(selected: string) {
+  selectAssignee.value = selected;
+  if (selected === "All") {
+    await storeTask.getAllTasksForOneProject(route.params.project as string);
+  } else {
+    await storeTask.getAllTasksWithFilters({
+      projectId: route.params.project as string,
+      filter: "assignee",
+      valueFilter: selected,
+    });
+  }
+  listTasksToDo.value = tasks.value.filter((task) => task.status === "To Do");
+  listTasksInProgress.value = tasks.value.filter(
+    (task) => task.status === "In Progress"
+  );
+  listTasksDone.value = tasks.value.filter((task) => task.status === "Done");
+}
 onMounted(() => {
   nextTick(async () => {
     await storeProject.getProjectsById(route.params.project as string);
@@ -90,6 +115,25 @@ onMounted(() => {
 
   <div v-else-if="oneProject" class="row">
     <h1 class="card-title">{{ oneProject[0].name }}</h1>
+    <div class="filter__container">
+      <SelectSearch
+        :options="allAssignee"
+        :selected="selectAssignee"
+        @filter="filterTask"
+        placeholder="Оберіть віконавця"
+      />
+      <Select
+        :selected="selected"
+        :options="[
+          'All',
+          'Треба зробити / To Do',
+          'В процесі / In Progress',
+          'Зроблено / Done',
+        ]"
+        @filter="filterStatus"
+      />
+    </div>
+
     <div class="col-4">
       <h3>Треба зробити / To Do</h3>
       <div class="draggable__header">
@@ -164,7 +208,6 @@ onMounted(() => {
         </template>
       </draggable>
     </div>
-
     <div class="col-4">
       <h3>В процесі / In Progress</h3>
       <div class="draggable__header">
@@ -311,18 +354,17 @@ onMounted(() => {
         </template>
       </draggable>
     </div>
-    <!-- <rawDisplayer class="col-2" :value="listTasksToDo" title="listTasksToDo" />
-    <rawDisplayer
-      class="col-2"
-      :value="listTasksInProgress"
-      title="listTasksInProgress"
-    />
-
-    <rawDisplayer class="col-2" :value="listTasksDone" title="listTasksDone" /> -->
   </div>
 </template>
 
 <style lang="scss" scoped>
+.filter__container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
 .header__buttons {
   display: flex;
   justify-content: center;

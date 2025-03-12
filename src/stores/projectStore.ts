@@ -5,6 +5,7 @@ import { type ProjectItemType } from "@/types/index";
 
 export const useProjectStore = defineStore("project", () => {
   const projects = ref<ProjectItemType[]>([]);
+  const allProjectsName = ref<string[]>([]);
   const oneProject = ref<ProjectItemType | null>(null);
   const isLoading = ref<Boolean>(false);
 
@@ -18,6 +19,9 @@ export const useProjectStore = defineStore("project", () => {
         });
 
       projects.value = respons;
+      allProjectsName.value = Array.from(
+        new Set(respons.map((item) => item.name))
+      );
     } catch (error) {
       throw new Error("Error fetching project data");
     } finally {
@@ -120,6 +124,7 @@ export const useProjectStore = defineStore("project", () => {
   return {
     projects,
     oneProject,
+    allProjectsName,
     isLoading,
 
     getAllProjects,

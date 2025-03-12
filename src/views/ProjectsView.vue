@@ -2,9 +2,11 @@
 // @ts-ignore
 import Select from "../components/ui/Select.vue";
 // @ts-ignore
-import Search from "../components/ui/Search.vue";
+import SelectSearch from "../components/ui/SelectSearch.vue";
 // @ts-ignore
 import Popup from "../components/Popup.vue";
+// @ts-ignore
+import AddProject from "../components/AddProject.vue";
 // @ts-ignore
 import ResizableTable from "../components/ResizableTable.vue";
 import { compile, computed, onMounted, ref, nextTick } from "vue";
@@ -22,8 +24,12 @@ const search = ref("");
 const showPopup = ref(false);
 const selected = ref("All");
 const storeProject = useProjectStore();
+
 const projects = computed(() => {
   return storeProject.projects;
+});
+const allProjectsName = computed(() => {
+  return ["All", ...storeProject.allProjectsName];
 });
 
 const isLoading = computed(() => {
@@ -40,7 +46,11 @@ async function filterProjects(selected: string) {
   }
 }
 async function searchProjects(search: string) {
-  await storeProject.getProjectsByName(search);
+  if (search === "All") {
+    storeProject.getAllProjects();
+  } else {
+    await storeProject.getProjectsByName(search);
+  }
 }
 
 const addProject = () => {
@@ -80,6 +90,12 @@ onMounted(() => {
       <button @click="addProject" class="button">Додати проект</button>
     </div>
     <div class="secondary">
+      <SelectSearch
+        :options="allProjectsName"
+        :selected="search"
+        @filter="searchProjects"
+        placeholder="Оберіь назву проекту"
+      />
       <Select
         :selected="selected"
         :options="[
@@ -90,20 +106,23 @@ onMounted(() => {
           'Призупинено / Suspended',
           'Скасовано / Cancelled',
         ]"
-        @filterProjects="filterProjects"
+        @filter="filterProjects"
       />
-      <Search :search="search" @searchProjects="searchProjects" />
+
+      <!-- <Search :search="search" @searchProjects="searchProjects" /> -->
     </div>
     <div v-if="isLoading">Loading...</div>
     <div v-else>
       <ResizableTable :items="projects" :keys="keys" :header="header" />
     </div>
   </div>
-  <Popup
-    v-if="showPopup"
-    @update:showPopup="showPopup = $event"
-    @saveProject="saveProject"
-  />
+  <Popup v-if="showPopup">
+    <AddProject
+      @update:showPopup="showPopup = $event"
+      @saveProject="saveProject"
+    >
+    </AddProject>
+  </Popup>
 </template>
 
 <style lang="scss" scoped>
@@ -127,11 +146,11 @@ onMounted(() => {
   gap: 1rem;
 }
 .secondary {
+  width: 100%;
+  height: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin: 0 auto;
-  padding: 10px 15px;
+  margin-bottom: 1rem;
 }
 </style>
