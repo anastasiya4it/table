@@ -1,14 +1,6 @@
 <script lang="ts" setup>
-// @ts-ignore
-import Select from "../components/ui/Select.vue";
-// @ts-ignore
-import SelectSearch from "../components/ui/SelectSearch.vue";
-// @ts-ignore
-import Popup from "../components/Popup.vue";
-// @ts-ignore
-import AddProject from "../components/AddProject.vue";
-// @ts-ignore
-import ResizableTable from "../components/ResizableTable.vue";
+import { Select, SelectSearch, Popup } from "../components/ui";
+import { AddProject, ResizableTable } from "../components/project";
 import { compile, computed, onMounted, ref, nextTick } from "vue";
 import { useProjectStore } from "../stores/projectStore";
 import moment from "moment";
@@ -108,8 +100,6 @@ onMounted(() => {
         ]"
         @filter="filterProjects"
       />
-
-      <!-- <Search :search="search" @searchProjects="searchProjects" /> -->
     </div>
     <div v-if="isLoading">Loading...</div>
     <div v-else>
@@ -127,7 +117,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .full {
-  //   width: 100% !important;
   height: 100vh !important;
 }
 

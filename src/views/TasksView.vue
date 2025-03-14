@@ -1,16 +1,12 @@
 <script lang="ts" setup>
-import "@fortawesome/fontawesome-free/css/all.css";
-// @ts-ignore
-import SelectSearch from "../components/ui/SelectSearch.vue";
-// @ts-ignore
-import Select from "../components/ui/Select.vue";
-// import draggable from "@/vue-draggable-next";
+import { Select, SelectSearch, ButtonSort, Popup } from "../components/ui";
+import { AddTask } from "../components/task";
+import { ResizableTable } from "../components/project";
+
 import { VueDraggableNext as draggable } from "vue-draggable-next";
 import { useProjectStore } from "../stores/projectStore";
 import { useTaskStore } from "../stores/taskStore";
 import { compile, computed, onMounted, ref, nextTick, watch } from "vue";
-// @ts-ignore
-import ResizableTable from "../components/ResizableTable.vue";
 import { useRoute } from "vue-router";
 import { Status } from "../types/index";
 import { type TaskItemType } from "../types/index";
@@ -18,11 +14,10 @@ import { type TaskItemType } from "../types/index";
 const route = useRoute();
 const storeProject = useProjectStore();
 const storeTask = useTaskStore();
-const isLoading = computed(() => {
-  return storeProject.isLoading || storeTask.isLoading;
-});
-const selectAssignee = ref("");
-const selected = ref("All");
+
+const showPopup = ref(false);
+const selectAssignee = ref<string>("");
+const selectedStatus = ref("All");
 const allAssignee = computed(() => {
   return ["All", ...storeTask.allAssignee];
 });
@@ -35,18 +30,28 @@ const header = {
 };
 const keys = Object.keys(header);
 
+const isLoading = computed(() => {
+  return storeProject.isLoading || storeTask.isLoading;
+});
 const oneProject = computed(() => {
   return storeProject.oneProject;
 });
 const tasks = computed(() => {
   return storeTask.tasks;
 });
-const listTasksToDo = ref();
-const listTasksInProgress = ref();
-const listTasksDone = ref();
+const listTasksToDo = ref<TaskItemType[]>([]);
+const listTasksInProgress = ref<TaskItemType[]>([]);
+const listTasksDone = ref<TaskItemType[]>([]);
 let id = 1;
 
-function filter(event: string, id: keyof TaskItemType, items: TaskItemType[]) {
+const addProject = () => {
+  showPopup.value = true;
+};
+function filter([event, id, items]: [
+  string,
+  keyof TaskItemType,
+  TaskItemType[]
+]) {
   if (event === "up") {
     items.sort((a, b) => {
       if (a[id] > b[id]) {
@@ -77,35 +82,67 @@ async function listTasksToDoEvent(e: any, listName: Status) {
     const newTask = {
       status: listName,
     };
-    // await storeTask.setNewStatus(e.added.element.taskId, listName);
+    // await storeTask.setNewStatus(e.added.element.taskId, listName);  //не працює
   }
 }
-async function filterTask(selected: string) {
-  selectAssignee.value = selected;
-  if (selected === "All") {
-    await storeTask.getAllTasksForOneProject(route.params.project as string);
-  } else {
-    await storeTask.getAllTasksWithFilters({
-      projectId: route.params.project as string,
-      filter: "assignee",
-      valueFilter: selected,
-    });
-  }
+function arrayListTasks() {
   listTasksToDo.value = tasks.value.filter((task) => task.status === "To Do");
   listTasksInProgress.value = tasks.value.filter(
     (task) => task.status === "In Progress"
   );
   listTasksDone.value = tasks.value.filter((task) => task.status === "Done");
 }
+
+async function saveTask({
+  name,
+  status,
+  date,
+  description,
+  assignee,
+}: {
+  name: string;
+  status: Status;
+  date: string;
+  description: string;
+  assignee: string;
+}) {
+  if (name && description) {
+    await storeTask.setNewTask({
+      taskId: tasks.value.length,
+      projectId: route.params.project as string,
+      name,
+      status,
+      assignee,
+      description,
+      date,
+    });
+  }
+  arrayListTasks();
+  showPopup.value = false;
+}
+
+async function filterTask(filter: string, selected: string) {
+  console.log(filter, selected);
+  filter === "assignee"
+    ? (selectAssignee.value = selected)
+    : (selectedStatus.value = selected);
+  if (selected === "All") {
+    await storeTask.getAllTasksForOneProject(route.params.project as string);
+  } else {
+    await storeTask.getAllTasksWithFilters({
+      projectId: route.params.project as string,
+      filter: filter,
+      valueFilter: selected,
+    });
+  }
+  arrayListTasks();
+}
+
 onMounted(() => {
   nextTick(async () => {
     await storeProject.getProjectsById(route.params.project as string);
     await storeTask.getAllTasksForOneProject(route.params.project as string);
-    listTasksToDo.value = tasks.value.filter((task) => task.status === "To Do");
-    listTasksInProgress.value = tasks.value.filter(
-      (task) => task.status === "In Progress"
-    );
-    listTasksDone.value = tasks.value.filter((task) => task.status === "Done");
+    arrayListTasks();
   });
 });
 </script>
@@ -113,28 +150,28 @@ onMounted(() => {
 <template>
   <div v-if="isLoading">Loading...</div>
 
-  <div v-else-if="oneProject" class="row">
-    <h1 class="card-title">{{ oneProject[0].name }}</h1>
+  <div v-else-if="oneProject">
+    <div class="row">
+      <h1 class="card-title">{{ oneProject[0].name }}</h1>
+      <button @click="addProject" class="button">
+        <i class="fa-duotone fa-solid fa-plus fa-beat fa-xs"></i>
+      </button>
+    </div>
     <div class="filter__container">
       <SelectSearch
         :options="allAssignee"
         :selected="selectAssignee"
-        @filter="filterTask"
+        @filter="filterTask('assignee', $event)"
         placeholder="Оберіть віконавця"
       />
       <Select
-        :selected="selected"
-        :options="[
-          'All',
-          'Треба зробити / To Do',
-          'В процесі / In Progress',
-          'Зроблено / Done',
-        ]"
-        @filter="filterStatus"
+        :selected="selectedStatus"
+        :options="['All', 'To Do', 'In Progress', 'Done']"
+        @filter="filterTask('status', $event)"
       />
     </div>
 
-    <div class="col-4">
+    <div class="col-4" v-if="listTasksToDo.length">
       <h3>Треба зробити / To Do</h3>
       <div class="draggable__header">
         <div
@@ -143,34 +180,11 @@ onMounted(() => {
           class="draggable__item"
         >
           {{ value[1] }}
-          <div class="header__buttons">
-            <button @click="filter('down', value[0], listTasksToDo)">
-              <i
-                class="fa-duotone fa-solid fa-arrow-down fa-bounce fa-xs"
-                style="
-                  --fa-bounce-start-scale-x: 1;
-                  --fa-bounce-start-scale-y: 1;
-                  --fa-bounce-jump-scale-x: 1;
-                  --fa-bounce-jump-scale-y: 1;
-                  --fa-bounce-land-scale-x: 1;
-                  --fa-bounce-land-scale-y: 1;
-                "
-              ></i>
-            </button>
-            <button @click="filter('up', value[0], listTasksToDo)">
-              <i
-                class="fa-solid fa-arrow-up fa-bounce fa-xs"
-                style="
-                  --fa-bounce-start-scale-x: 1;
-                  --fa-bounce-start-scale-y: 1;
-                  --fa-bounce-jump-scale-x: 1;
-                  --fa-bounce-jump-scale-y: 1;
-                  --fa-bounce-land-scale-x: 1;
-                  --fa-bounce-land-scale-y: 1;
-                "
-              ></i>
-            </button>
-          </div>
+          <ButtonSort
+            @filter="filter"
+            :value="value[0]"
+            :list="listTasksToDo"
+          />
         </div>
       </div>
       <draggable
@@ -187,7 +201,6 @@ onMounted(() => {
           v-for="element in listTasksToDo"
           :key="element"
         >
-          <!-- {{ element.name }} -->
           <div class="draggable__header">
             <div class="draggable__item">{{ element.taskId }}</div>
             <div class="draggable__item">{{ element.name }}</div>
@@ -208,7 +221,7 @@ onMounted(() => {
         </template>
       </draggable>
     </div>
-    <div class="col-4">
+    <div class="col-4" v-if="listTasksInProgress.length">
       <h3>В процесі / In Progress</h3>
       <div class="draggable__header">
         <div
@@ -217,34 +230,11 @@ onMounted(() => {
           class="draggable__item"
         >
           {{ value[1] }}
-          <div class="header__buttons">
-            <button @click="filter('down', value[0], listTasksInProgress)">
-              <i
-                class="fa-duotone fa-solid fa-arrow-down fa-bounce fa-xs"
-                style="
-                  --fa-bounce-start-scale-x: 1;
-                  --fa-bounce-start-scale-y: 1;
-                  --fa-bounce-jump-scale-x: 1;
-                  --fa-bounce-jump-scale-y: 1;
-                  --fa-bounce-land-scale-x: 1;
-                  --fa-bounce-land-scale-y: 1;
-                "
-              ></i>
-            </button>
-            <button @click="filter('up', value[0], listTasksInProgress)">
-              <i
-                class="fa-solid fa-arrow-up fa-bounce fa-xs"
-                style="
-                  --fa-bounce-start-scale-x: 1;
-                  --fa-bounce-start-scale-y: 1;
-                  --fa-bounce-jump-scale-x: 1;
-                  --fa-bounce-jump-scale-y: 1;
-                  --fa-bounce-land-scale-x: 1;
-                  --fa-bounce-land-scale-y: 1;
-                "
-              ></i>
-            </button>
-          </div>
+          <ButtonSort
+            @filter="filter"
+            :value="value[0]"
+            :list="listTasksInProgress"
+          />
         </div>
       </div>
       <draggable
@@ -260,7 +250,6 @@ onMounted(() => {
           v-for="element in listTasksInProgress"
           :key="element"
         >
-          <!-- {{ element.name }} -->
           <div class="draggable__header">
             <div class="draggable__item">{{ element.taskId }}</div>
             <div class="draggable__item">{{ element.name }}</div>
@@ -281,7 +270,7 @@ onMounted(() => {
         </template>
       </draggable>
     </div>
-    <div class="col-4">
+    <div class="col-4" v-if="listTasksDone.length">
       <h3>Зроблено / Done</h3>
       <div class="draggable__header">
         <div
@@ -290,34 +279,11 @@ onMounted(() => {
           class="draggable__item"
         >
           {{ value[1] }}
-          <div class="header__buttons">
-            <button @click="filter('down', value[0], listTasksDone)">
-              <i
-                class="fa-duotone fa-solid fa-arrow-down fa-bounce fa-xs"
-                style="
-                  --fa-bounce-start-scale-x: 1;
-                  --fa-bounce-start-scale-y: 1;
-                  --fa-bounce-jump-scale-x: 1;
-                  --fa-bounce-jump-scale-y: 1;
-                  --fa-bounce-land-scale-x: 1;
-                  --fa-bounce-land-scale-y: 1;
-                "
-              ></i>
-            </button>
-            <button @click="filter('up', value[0], listTasksDone)">
-              <i
-                class="fa-solid fa-arrow-up fa-bounce fa-xs"
-                style="
-                  --fa-bounce-start-scale-x: 1;
-                  --fa-bounce-start-scale-y: 1;
-                  --fa-bounce-jump-scale-x: 1;
-                  --fa-bounce-jump-scale-y: 1;
-                  --fa-bounce-land-scale-x: 1;
-                  --fa-bounce-land-scale-y: 1;
-                "
-              ></i>
-            </button>
-          </div>
+          <ButtonSort
+            @filter="filter"
+            :value="value[0]"
+            :list="listTasksDone"
+          />
         </div>
       </div>
       <draggable
@@ -354,6 +320,13 @@ onMounted(() => {
         </template>
       </draggable>
     </div>
+    <Popup v-if="showPopup">
+      <AddTask
+        :allAssignee="allAssignee"
+        @update:showPopup="showPopup = $event"
+        @saveTask="saveTask"
+      />
+    </Popup>
   </div>
 </template>
 
@@ -365,12 +338,11 @@ onMounted(() => {
   justify-content: center;
   gap: 1rem;
 }
-.header__buttons {
+.row {
   display: flex;
+  align-items: center;
+  gap: 1rem;
   justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  margin-bottom: 0.5rem;
 }
 .draggable__header {
   display: grid;

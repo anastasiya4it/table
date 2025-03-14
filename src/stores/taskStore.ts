@@ -61,14 +61,46 @@ export const useTaskStore = defineStore("task", () => {
       isLoading.value = false;
     }
   }
+  async function setNewTask({
+    taskId,
+    projectId,
+    name,
+    status,
+    assignee,
+    description,
+    date,
+  }: TaskItemType) {
+    isLoading.value = true;
 
+    try {
+      const respons = await axios.post("http://localhost:3000/tasks", {
+        taskId,
+        projectId,
+        name,
+        status,
+        assignee,
+        description,
+        date,
+      });
+      tasks.value.push(respons.data);
+    } catch (error) {
+      throw new Error("Error fetching project data");
+    } finally {
+      isLoading.value = false;
+    }
+  }
   async function setNewStatus(taskId: string, status: string) {
     isLoading.value = true;
     try {
-      const response = await axios.patch(
+      const response = await axios.put(
         `http://localhost:3000/tasks/${taskId}`,
         {
           status: status,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
       if (response.status !== 200) {
@@ -90,6 +122,7 @@ export const useTaskStore = defineStore("task", () => {
 
     getAllTasksForOneProject,
     setNewStatus,
+    setNewTask,
     getAllTasksWithFilters,
   };
 });

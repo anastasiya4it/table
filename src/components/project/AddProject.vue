@@ -20,39 +20,21 @@ const saveProject = () => {
 </script>
 
 <template>
-  <h2>Добавить проект</h2>
+  <h2>Додати проект</h2>
   <div class="popup__inner">
     <label class="popup__label">
-      Название:
+      Назва:
       <input v-model="newProjectName" type="text" class="popup__input" />
     </label>
     <label class="popup__label">
-      Описание:
+      Опис:
       <input v-model="newProjectDescription" type="text" class="popup__input" />
     </label>
     <div class="popup__button">
-      <button @click="saveProject">Сохранить</button>
-      <button @click="closePopup">Отмена</button>
+      <button @click="saveProject">Зберегти</button>
+      <button @click="closePopup">Відмінити</button>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.popup__label {
-  display: block;
-}
-.popup__inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.popup__input {
-  padding: 0.5rem;
-  border: 1px solid #968d8d;
-  border-radius: 5px;
-}
-.popup__button {
-  display: flex;
-  justify-content: space-between;
-}
-</style>
+<style lang="scss" scoped></style>

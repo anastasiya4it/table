@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import "@fortawesome/fontawesome-free/css/all.css";
+import { ButtonSort } from "../ui";
 import { ref, onMounted, computed } from "vue";
 import VueResizable from "vue-resizable";
-import type { ProjectItemType, TaskItemType } from "../types/index";
+import type { ProjectItemType, TaskItemType } from "../../types/index";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -22,8 +22,8 @@ const handleMouseOver = (id: number | string) => {
 const handleMouseLeave = () => {
   hoveredRow.value = null;
 };
-function filter(event: string, id: string) {
-  if (event === "up") {
+function filter(direction: string, id: string) {
+  if (direction === "up") {
     items.value.sort((a, b) => {
       if (a[id] > b[id]) {
         return 1;
@@ -62,7 +62,8 @@ function navigateToPage(project: string) {
       >
         <div style="width: 100%; height: 100%">
           <p class="resizable-content">{{ props.header[item] }}</p>
-          <div class="header__buttons">
+          <ButtonSort @filter="filter" :value="item" />
+          <!-- <div class="header__buttons">
             <button @click="filter('down', item)">
               <i
                 class="fa-duotone fa-solid fa-arrow-down fa-bounce fa-xs"
@@ -89,7 +90,7 @@ function navigateToPage(project: string) {
                 "
               ></i>
             </button>
-          </div>
+          </div> -->
         </div>
       </vue-resizable>
     </div>
